@@ -15,12 +15,12 @@ export const shopApi = {
   },
 
   // 商品列表
-  goodsList: (params: ProductListParams) => {
+  productList: (params: ProductListParams) => {
     return request.get("/products", params);
   },
 
   // 单个商品
-  goods: (id: number) => {
+  product: (id: number) => {
     return request.get(`/products/${id}`);
   },
 

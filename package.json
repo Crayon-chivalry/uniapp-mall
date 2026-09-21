@@ -11,5 +11,8 @@
   "description": "",
   "devDependencies": {
     "@dcloudio/types": "^3.4.32"
+  },
+  "dependencies": {
+    "vuex": "^4.1.0"
   }
 }

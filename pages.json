@@ -25,6 +25,16 @@
 			}
 		}
 	],
+	// 分包
+	"subPackages": [{
+		"root": "pages/product",
+		"pages": [{
+			"path": "detail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		}]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -48,12 +58,12 @@
 			"iconPath": "/static/images/tabbar/category.png",
 			"selectedIconPath": "/static/images/tabbar/category-active.png",
 			"text": "分类"
-		},{
+		}, {
 			"pagePath": "pages/cart/index",
 			"iconPath": "/static/images/tabbar/cart.png",
 			"selectedIconPath": "/static/images/tabbar/cart-active.png",
 			"text": "购物车"
-		},{
+		}, {
 			"pagePath": "pages/user/index",
 			"iconPath": "/static/images/tabbar/user.png",
 			"selectedIconPath": "/static/images/tabbar/user-active.png",
