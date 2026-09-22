@@ -35,13 +35,13 @@
 
 	.product {
 		margin: 10rpx 6rpx;
-		border-radius: $radius-2;
+		border-radius: $radius-3;
 		background-color: #fff;
 
 		.cover {
 			display: block;
 			width: 100%;
-			border-radius: $radius-2;
+			border-radius: $radius-3;
 		}
 
 		.content {

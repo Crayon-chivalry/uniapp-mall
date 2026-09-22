@@ -38,7 +38,7 @@
 	import { shopApi } from "@/api/shopApi"
 	import type { BannerItem, EntriesItem, ProductItem } from "@/api/types"
 	import PromoSections from "./components/PromoSections.vue"
-	import ProductWaterfall from "@/conponents/ProductWaterfall.vue"
+	import ProductWaterfall from "@/components/ProductWaterfall.vue"
 
 	const bannerList = ref<BannerItem[]>([])
 	const entries = ref<EntriesItem[]>([])

@@ -4,8 +4,10 @@
 		</up-navbar>
 
 		<template v-if="product">
+			<!-- 轮播 -->
 			<up-swiper height="375" indicator :list="product.images" @click="previewImage"></up-swiper>
 
+			<!-- 基本信息 -->
 			<view class="info">
 				<view class="col">
 					<view class="price">￥<text>{{ product.price }}</text></view>
@@ -14,10 +16,17 @@
 				<view class="name">{{ product.name }} {{ product.description }}</view>
 			</view>
 
+			<!-- 详情 -->
 			<view class="details">
 				<view class="details-title">商品详情</view>
 				<up-parse :content="product.detailContent"></up-parse>
 			</view>
+
+			<!-- 动作栏 -->
+			<ActionBar @onClick="actionBarClick" />
+
+			<!-- SKU 选择弹窗 -->
+			<SkuPopup v-model:visible="skuVisible" :goods="product" :mode="skuMode" @confirm="onSkuConfirm" />
 		</template>
 	</view>
 </template>
@@ -26,15 +35,33 @@
 	import { ref } from 'vue';
 	import { onLoad } from "@dcloudio/uni-app"
 
-	import type { ProductItem } from "@/api/types"
-	import { shopApi } from '../../api/shopApi';
+	import type { ProductItem, SkuItem } from "@/api/types"
+	import { shopApi } from "../../api/shopApi";
+	import ActionBar, { type actionType } from './components/ActionBar'
+	import SkuPopup from './components/SkuPopup.vue'
 
 	const productId = ref("")
 	const product = ref<ProductItem | null>(null)
 
+	// SKU 弹窗状态
+	const skuVisible = ref(false)
+	const skuMode = ref<actionType>("cart")
+
+	// 动作栏点击：打开 SKU 弹窗
+	const actionBarClick = (type: actionType) => {
+		skuMode.value = type
+		skuVisible.value = true
+	}
+
+	// SKU 确认：拿到选中的 sku 和数量（购物车/下单逻辑待接入）
+	const onSkuConfirm = (sku: SkuItem, quantity: number) => {
+		skuVisible.value = false
+		console.log(skuMode.value, sku, quantity)
+	}
 
 	// 预览图片
 	const previewImage = (current : number) => {
+		if(!product.value) return
 		uni.previewImage({
 			urls: product.value.images,
 			current
@@ -84,12 +111,12 @@
 	}
 
 	.details {
-	  margin-top: $space-3;
-	  background-color: #fff;
+		margin-top: $space-3;
+		background-color: #fff;
 
-	  .details-title {
-	    padding: $space-3;
-	    border-bottom: 1px solid $color-border;
-	  }
+		.details-title {
+			padding: $space-3;
+			border-bottom: 1px solid $color-border;
+		}
 	}
 </style>
