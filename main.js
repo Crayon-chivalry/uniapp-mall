@@ -3,6 +3,7 @@ import uviewPlus from '@/uni_modules/uview-plus'
 import store from './store'
 
 import "./styles/base.scss";
+import Empty from "./components/Empty.vue"
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -23,6 +24,7 @@ export function createApp() {
 	const app = createSSRApp(App)
 	app.use(uviewPlus)
 	app.use(store)
+	app.component("Empty", Empty)
 	return {
 		app
 	}

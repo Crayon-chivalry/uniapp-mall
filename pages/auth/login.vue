@@ -28,7 +28,7 @@
 			<up-button type="primary" text="登录" class="btn" @click="login"></up-button>
 
 			<view class="links">
-				<view @click="uni.navigateTo({url: './register'})">还没有账号？去注册</view>
+				<view @click="gotoRegister">还没有账号？去注册</view>
 				<view>忘记密码</view>
 			</view>
 
@@ -99,7 +99,12 @@
 			});
 			return;
 		}
-		uni.switchTab({ url: "/pages/user/index" });
+		uni.switchTab({ url: "/pages/home/index" });
+	};
+
+	// 去注册页
+	const gotoRegister = () => {
+		uni.navigateTo({ url: "/pages/auth/register" });
 	};
 
 	// 登录

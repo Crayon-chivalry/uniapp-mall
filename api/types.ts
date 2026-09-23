@@ -1,3 +1,5 @@
+import type { UserData } from "@/store/modules/userStore";
+
 // 接口结构
 export interface ApiResponse<T = any> {
   code: number
@@ -17,6 +19,12 @@ export interface LoginParams {
   phone: string
   password: string
   // code: number
+}
+
+// 登录返回的载荷
+export interface LoginResult {
+  accessToken: string
+  user: UserData
 }
 
 // 注册
@@ -57,6 +65,22 @@ export interface CategoriesItem {
   name: string
   parentId: number | null
   children: CategoriesItem[]
+}
+
+/**
+ * 列表类接口通用载荷
+ * 后端分页接口统一返回 { list, pagination }
+ */
+export interface ListResult<T> {
+  list: T[]
+  pagination: PaginationResult
+}
+
+// 分页信息
+export interface PaginationResult {
+  page: number
+  pageSize: number
+  total: number
 }
 
 /**

@@ -39,6 +39,12 @@
 			"style": {
 				"navigationBarTitleText": "注册"
 			}
+		},
+		{
+			"path": "settings",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
 		}
 	]
 	},{
@@ -47,6 +53,14 @@
 			"path": "detail",
 			"style": {
 				"navigationBarTitleText": "详情"
+			}
+		}]
+	}, {
+		"root": "pages/address",
+		"pages": [{
+			"path": "index",
+			"style": {
+				"navigationBarTitleText": "收货地址"
 			}
 		}]
 	}],

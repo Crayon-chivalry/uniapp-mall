@@ -1,27 +1,30 @@
 import request from "./request";
-import type {
+import {
   CategoriesItem,
+  ListResult,
   Pagination,
   ProductListParams,
   OrderCreateParams,
   OrderListParams,
-  AddCartsParams
+  AddCartsParams,
+  ProductItem,
+  OrderItem
 } from "./types";
 
 export const shopApi = {
   // 分类
   categories: (params: Pagination) => {
-    return request.get<CategoriesItem[]>("/categories", params);
+    return request.get<ListResult<CategoriesItem>>("/categories", params);
   },
 
   // 商品列表
   productList: (params: ProductListParams) => {
-    return request.get("/products", params);
+    return request.get<ListResult<ProductItem>>("/products", params);
   },
 
   // 单个商品
   product: (id: number) => {
-    return request.get(`/products/${id}`);
+    return request.get<ProductItem>(`/products/${id}`);
   },
 
   // 提交订单
@@ -31,12 +34,12 @@ export const shopApi = {
 
   // 订单列表
   orderList: (params: OrderListParams) => {
-    return request.get("/orders", params);
+    return request.get<ListResult<OrderItem>>("/orders", params);
   },
 
   // 订单详情
   orderDetail: (id: number) => {
-    return request.get(`/orders/${id}`);
+    return request.get<OrderItem>(`/orders/${id}`);
   },
 
   // 订单支付

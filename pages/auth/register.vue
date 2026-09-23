@@ -23,7 +23,7 @@
 			<up-button type="primary" text="注册" class="btn" @click="register"></up-button>
 
 			<view class="links">
-				<text @click="uni.navigateTo({url: './login'})">已有账号？立即登录</text>
+				<text @click="gotoLogin">已有账号？立即登录</text>
 			</view>
 		</view>
 	</view>
@@ -39,6 +39,11 @@
 	}
 
 	const formRef = ref<FormRef | null>(null)
+
+	// 返回登录页
+	const gotoLogin = () => {
+		uni.navigateTo({ url: "/pages/auth/login" });
+	};
 	const rules = {
 		'phone': {
 			type: 'number',

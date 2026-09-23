@@ -10,7 +10,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@dcloudio/types": "^3.4.32"
+    "@dcloudio/types": "^3.4.32",
+    "typescript": "5.4"
   },
   "dependencies": {
     "vuex": "^4.1.0",

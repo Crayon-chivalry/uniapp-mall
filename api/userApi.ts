@@ -1,5 +1,5 @@
 import request from "./request";
-import type { LoginParams, RegisterParams, UpdatePasswordParams, UpdateProfileParams } from "./types";
+import type { LoginParams, LoginResult, RegisterParams, UpdatePasswordParams, UpdateProfileParams } from "./types";
 
 export const userApi = {
   // 注册
@@ -9,7 +9,7 @@ export const userApi = {
 
   // 登录
   login: (params: LoginParams) => {
-    return request.post("/auth/login", params);
+    return request.post<LoginResult>("/auth/login", params);
   },
 
   // 修改密码
