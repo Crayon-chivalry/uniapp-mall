@@ -3,11 +3,12 @@
 		<!-- 个人信息 -->
 		<view class="profile">
 			<view class="profile-row">
-				<up-avatar :src="src" :size="60"></up-avatar>
-				<view>
-					<view class="name">用户名称</view>
-					<view class="phone">14152526363</view>
+				<up-avatar :src="user.avatar" :size="60"></up-avatar>
+				<view v-if="user">
+					<view class="name">{{ user.nickname }}</view>
+					<view class="phone">{{ user.phone }}</view>
 				</view>
+				<view @click="uni.navigateTo({url: '/pages/auth/login'})" v-else>未登录</view>
 			</view>
 			<view class="edit">
 				<up-icon name="edit-pen"></up-icon>
@@ -48,13 +49,16 @@
 </template>
 
 <script lang="ts" setup>
-	import type { OrderStatus } from "@/api/types";
+	import { use } from "@/store/userStore"
+	import { useUserStore } from "@/store/modules/userStore" ;
 
 	interface OrderItem {
 		name : string;
 		icon : string;
 		status : OrderStatus;
 	}
+
+	const { user } = useUserStore()
 
 	const orderItems : OrderItem[] = [
 		{ name: "待付款", icon: "/static/images/order1.png", status: "pending" },

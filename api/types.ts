@@ -14,14 +14,14 @@ export interface Pagination {
 
 // 登录
 export interface LoginParams {
-  phone: number
+  phone: string
   password: string
-  code: number
+  // code: number
 }
 
 // 注册
 export interface RegisterParams {
-  phone: number
+  phone: string
   password: string
   nickname: string
 }

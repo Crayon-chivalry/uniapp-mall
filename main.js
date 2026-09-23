@@ -1,5 +1,6 @@
 import App from './App'
 import uviewPlus from '@/uni_modules/uview-plus'
+import store from './store'
 
 import "./styles/base.scss";
 
@@ -21,6 +22,7 @@ import {
 export function createApp() {
 	const app = createSSRApp(App)
 	app.use(uviewPlus)
+	app.use(store)
 	return {
 		app
 	}

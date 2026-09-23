@@ -1,12 +1,11 @@
 import type { ApiResponse } from "./types";
+import store from "@/store";
 
 // 接口基础地址，后续可按环境区分
 const BASE_URL = "http://localhost:3000/api/app";
 
-const TOKEN_KEY = "token";
-
-// 登录页路径
-const LOGIN_PAGE = "/pages/login/index";
+// 登录页路径（分包 pages/auth）
+const LOGIN_PAGE = "/pages/auth/login";
 
 const TIMEOUT = 10000;
 
@@ -21,7 +20,7 @@ interface RequestOptions {
 }
 
 function getToken(): string {
-  return uni.getStorageSync(TOKEN_KEY) || "";
+  return store.state.userStore.token || "";
 }
 
 // 获取当前页面完整路径（含参数），用于登录后回跳
@@ -41,7 +40,7 @@ function getCurrentFullPath(): string {
 
 // token 失效：清除登录信息并跳转登录页
 function handleUnauthorized() {
-  uni.removeStorageSync(TOKEN_KEY);
+  store.commit("userStore/signOut");
 
   const pages = getCurrentPages();
   const current = pages[pages.length - 1] as any;
