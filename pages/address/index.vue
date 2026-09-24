@@ -14,13 +14,13 @@
         </view>
         <view class="footer">
           <up-checkbox label="默认地址" name="agree" usedAlone labelSize="24rpx" labelColor="#8B8D8C" activeColor="#DD261C"
-            size="32rpx" v-model:checked="item.isDefault"></up-checkbox>
+            size="32rpx" v-model:checked="item.isDefault" @change="setDefault(item.id)"></up-checkbox>
           <view class="btn-wrap">
-            <view class="btn">
+            <view class="btn" @click="toFormPage(item.id)">
               <up-icon name="edit-pen"></up-icon>
               <text>编辑</text>
             </view>
-            <view class="btn">
+            <view class="btn" @click="handleDelete(item.id)">
               <up-icon name="trash"></up-icon>
               <text>删除</text>
             </view>
@@ -30,11 +30,15 @@
     </view>
 
     <empty v-if="list.length === 0" />
+
+    <view class="footer-fixed">
+      <up-button type="primary" text="新增地址" @click="toFormPage()"></up-button>
+    </view>
   </view>
 </template>
 
 <script lang="ts" setup>
-import { onLoad } from "@dcloudio/uni-app";
+import { onShow } from "@dcloudio/uni-app";
 import { ref } from "vue";
 
 import { addressApi } from "@/api/addressApi";
@@ -42,13 +46,45 @@ import type { AddressItem } from "@/api/types";
 
 const list = ref<AddressItem[]>([])
 
+const toFormPage = (id?: number) => {
+  uni.navigateTo({
+    url: id ? `./form?id=${id}` : "./form"
+  })
+}
+
+// 设置默认地址
+const setDefault = async (id: number) => {
+  const res = await addressApi.setDefault(id)
+  uni.showToast({
+    title: res.message,
+  })
+  getAddressList()
+}
+
+// 删除地址
+const handleDelete = (id: number) => {
+  uni.showModal({
+    title: '提示',
+    content: '确认要删除吗？',
+    success: async (res) => {
+      if (res.confirm) {
+        const res = await addressApi.delete(id)
+        uni.showToast({
+          title: res.message,
+        })
+        list.value = list.value.filter(item => item.id !== id)
+      }
+    }
+  });
+}
+
 // 获取地址
 const getAddressList = async () => {
   const { data } = await addressApi.list()
   list.value = data
 }
 
-onLoad(() => {
+onShow(() => {
   getAddressList()
 })
 </script>
@@ -102,5 +138,14 @@ onLoad(() => {
       }
     }
   }
+}
+
+.footer-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $space-3;
+  background-color: #fff;
 }
 </style>

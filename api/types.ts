@@ -135,7 +135,7 @@ export interface AddCartsParams {
 export interface AddressItem {
   id: number
   receiverName: string
-  receiverPhone: number
+  receiverPhone: number | string
   province: string
   city: string
   district: string
@@ -143,7 +143,12 @@ export interface AddressItem {
   postalCode: string
   isDefault: boolean
   addressTag?: string
+  updatedAt?: string
+  createdAt?: string
 }
+
+// 新增/修改地址的提交载荷（服务端生成 id，提交时不需要）
+export type AddressParams = Omit<AddressItem, "id" | "createdAt" | "updatedAt">
 
 /**
  * 订单

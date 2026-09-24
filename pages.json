@@ -45,6 +45,12 @@
 			"style": {
 				"navigationBarTitleText": "设置"
 			}
+		},
+		{
+			"path": "updatePassword",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
 		}
 	]
 	},{
@@ -61,6 +67,11 @@
 			"path": "index",
 			"style": {
 				"navigationBarTitleText": "收货地址"
+			}
+		},{
+			"path": "form",
+			"style": {
+				"navigationBarTitleText": "编辑地址"
 			}
 		}]
 	}],

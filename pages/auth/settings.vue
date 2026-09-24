@@ -23,7 +23,7 @@
             <up-icon name="arrow-right"></up-icon>
           </view>
         </view>
-        <view class="card-cell">
+        <view class="card-cell" @click="toPage('./updatePassword')">
           <view>修改密码</view>
           <up-icon name="arrow-right"></up-icon>
         </view>
@@ -68,6 +68,12 @@ const show = ref(false)
 const updateType = ref(1)
 const updateValue = ref("")
 const title = computed(() => updateType.value === 1 ? "修改昵称" : "修改手机号")
+
+const toPage = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
 
 // 显示修改对话框
 const handlelShowDialog = (type: number, value: string) => {

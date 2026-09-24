@@ -1,5 +1,5 @@
 import request from "./request";
-import type { AddressItem } from "./types";
+import type { AddressItem, AddressParams } from "./types";
 
 export const addressApi = {
   // 用户地址列表
@@ -13,12 +13,12 @@ export const addressApi = {
   },
 
   // 添加地址
-  add: (params: AddressItem) => {
+  add: (params: AddressParams) => {
     return request.post("/shipping-addresses", params);
   },
 
   // 修改地址
-  update: (id: number, params: AddressItem) => {
+  update: (id: number, params: AddressParams) => {
     return request.patch(`/shipping-addresses/${id}`, params);
   },
 
