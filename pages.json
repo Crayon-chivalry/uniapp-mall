@@ -51,6 +51,12 @@
 			"style": {
 				"navigationBarTitleText": "修改密码"
 			}
+		},
+		{
+			"path": "resetPassword",
+			"style": {
+				"navigationBarTitleText": "找回密码"
+			}
 		}
 	]
 	},{

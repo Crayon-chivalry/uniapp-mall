@@ -28,8 +28,8 @@
 			<up-button type="primary" text="登录" class="btn" @click="login"></up-button>
 
 			<view class="links">
-				<view @click="gotoRegister">还没有账号？去注册</view>
-				<view>忘记密码</view>
+				<view @click="navigateByLink('./register')">还没有账号？去注册</view>
+				<view @click="navigateByLink('./resetPassword')">忘记密码</view>
 			</view>
 
 			<view class="footer">
@@ -47,8 +47,10 @@
 <script lang="ts" setup>
 	import { ref } from "vue";
 	import { onLoad } from "@dcloudio/uni-app";
+
 	import { userApi } from "@/api/userApi";
-	import { useUserStore } from "@/store/modules/userStore" ;
+	import { useUserStore } from "@/store/modules/userStore";
+	import { navigateByLink } from "@/utils/index"
 
 	type FormRef = {
 		validate: () => Promise<boolean>
@@ -100,11 +102,6 @@
 			return;
 		}
 		uni.switchTab({ url: "/pages/home/index" });
-	};
-
-	// 去注册页
-	const gotoRegister = () => {
-		uni.navigateTo({ url: "/pages/auth/register" });
 	};
 
 	// 登录
