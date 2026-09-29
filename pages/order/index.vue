@@ -41,13 +41,13 @@
         </view>
         <view class="order-footer">
           <view class="order-total">
-            共1件商品 合计：<strong>¥{{ item.totalAmount }}</strong>
+            共{{ item.items.length }}件商品 合计：<strong>¥{{ item.totalAmount }}</strong>
           </view>
           <view class="btn-wrap" v-if="item.status === 'pending'">
             <view class="gray-button">
               取消订单
             </view>
-            <view class="button">
+            <view class="button" @click.stop="paymentClick(item)">
               去付款
             </view>
           </view>
@@ -63,7 +63,12 @@
           </view>
         </view>
       </view>
+
+      <!-- 加载更多 -->
+      <up-loadmore v-if="orderList.length" :status="loadmoreStatus" />
     </view>
+
+    <PaymentPopup v-model="showPaymentPopup" :order="activeOrder" @success="paymentSuccess" />
   </view>
 </template>
 
@@ -73,7 +78,9 @@ import { ref } from "vue";
 
 import type { OrderItem, OrderStatus } from "@/api/types";
 import { shopApi } from "@/api/shopApi";
+import { usePagedList } from "@/hooks/usePagedList";
 import { formatSpecsLabel, navigateByLink } from "@/utils/index"
+import PaymentPopup from "./components/PaymentPopup.vue"
 
 type OrderTabStatus = OrderStatus | "all";
 type OrderTabItem = (typeof statusList)[number] & { index: number };
@@ -86,6 +93,7 @@ const statusList = [
   { name: "已完成", value: "completed" },
   { name: "已取消", value: "cancelled" },
 ] satisfies { name: string; value: OrderTabStatus }[];
+const activeStatus = ref<OrderTabStatus>("all")
 
 const statusNames: Record<OrderStatus, string> = {
   pending: "待付款",
@@ -95,25 +103,58 @@ const statusNames: Record<OrderStatus, string> = {
   cancelled: "已取消",
 };
 
-const orderList = ref<OrderItem[]>([])
+const showPaymentPopup = ref(false)
+const activeOrder = ref<OrderItem | null>(null)
 
-// tabs 切换
+// 列表数据 + 加载更多/刷新（触底加载已由 hook 内部注册）
+const { list: orderList, loadmoreStatus, refresh, updateItem } = usePagedList<OrderItem>(
+  (page, pageSize) => shopApi.orderList({
+    page,
+    pageSize,
+    status: activeStatus.value === "all" ? undefined : activeStatus.value
+  })
+)
+
+// tabs 切换：重置回第一页
 const onChange = (item: OrderTabItem) => {
-  console.log(item)
+  if (item.value === activeStatus.value) return
+  activeStatus.value = item.value
+  refresh()
 }
 
-// 获取订单列表
-const getList = async () => {
-  const { data } = await shopApi.orderList({
-    page: 1,
-    pageSize: 10
-  })
-  console.log(data)
-  orderList.value = data.list
+// 付款成功后无感更新列表，不 refresh（避免列表重置闪动）
+const paymentSuccess = (newOrder?: OrderItem) => {
+  if (!newOrder) return
+  updateItem(
+    newOrder.id,
+    (item) => item.id,
+    () => (activeStatus.value === "pending" ? null : newOrder)
+  )
+}
+
+// 取消订单
+const cancelOrder = () => {
+
+}
+
+// 付款
+const paymentClick = (item: OrderItem) => {
+  activeOrder.value = item
+  showPaymentPopup.value = true
+}
+
+// 确认收货
+const confirmTake = () => {
+
+}
+
+// 删除订单
+const deleteOrder = () => {
+
 }
 
 onLoad(() => {
-  getList()
+  refresh()
 })
 </script>
 

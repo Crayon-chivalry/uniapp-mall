@@ -61,6 +61,17 @@ function showError(content: string) {
   });
 }
 
+// 清洗 GET 查询参数：undefined/null 会被 uni.request 序列化成 "undefined"/"null" 字符串，导致后端校验失败
+function cleanParams(params?: Record<string, any>) {
+  if (!params) return params;
+  const cleaned: Record<string, any> = {};
+  Object.keys(params).forEach((key) => {
+    const value = params[key];
+    if (value !== undefined && value !== null) cleaned[key] = value;
+  });
+  return cleaned;
+}
+
 interface UploadOptions {
   url: string;
   filePath: string;
@@ -134,7 +145,7 @@ const request = (function <T = any>(options: RequestOptions): Promise<ApiRespons
 
 // 快捷方法，对齐 axios 用法
 request.get = function <T = any>(url: string, params?: Record<string, any>) {
-  return request<T>({ url, method: "GET", data: params });
+  return request<T>({ url, method: "GET", data: cleanParams(params) });
 };
 
 request.post = function <T = any>(url: string, data?: any) {
