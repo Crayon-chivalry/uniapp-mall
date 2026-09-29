@@ -21,7 +21,7 @@
 			<view class="card">
 				<view class="card-header">
 					<view class="card-title">我的订单</view>
-					<view class="more">
+					<view class="more" @click="navigateByLink('/pages/order/index')">
 						<text>查看全部</text>
 						<up-icon name="arrow-right" size="14"></up-icon>
 					</view>
@@ -51,6 +51,7 @@
 <script lang="ts" setup>
 import { useUserStore } from "@/store/modules/userStore";
 import type { OrderStatus } from "@/api/types"
+import { navigateByLink } from "@/utils";
 
 interface OrderItem {
 	name: string;
@@ -75,6 +76,13 @@ const actionsItems = [
 
 // 跳转登录页
 const toPage = (url: string) => {
+	if(!url) {
+		uni.showToast({
+			title: "暂未开放",
+			icon: "none"
+		})
+		return
+	}
 	uni.navigateTo({ url })
 }
 </script>
