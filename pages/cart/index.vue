@@ -131,7 +131,15 @@ const handleDeleteChecked = () => {
 }
 
 const submit = () => {
-	setCheckoutItems(cartList.value.filter((item) => item.checked));
+	const checkoutItems = cartList.value.filter((item) => item.checked)
+	if(!checkoutItems.length) {
+		uni.showToast({
+			title: "请选择要下单的商品",
+			icon: "none"
+		})
+		return
+	}
+	setCheckoutItems(checkoutItems);
 	uni.navigateTo({url: '/pages/order/confirm'})
 }
 

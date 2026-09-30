@@ -73,7 +73,7 @@
       </view>
       <view class="cell-footer">
         <view>
-          小计：<text class="amount">￥{totalAmount}</text>
+          小计：<text class="amount">￥{{ totalAmount }}</text>
         </view>
       </view>
     </view>
@@ -81,7 +81,7 @@
     <view class="placeholder"></view>
     <view class="submit-bar">
       <view class="btn" @click="submitOrder">
-        立即支付 ￥{totalAmount}
+        立即支付 ￥{{ totalAmount }}
       </view>
     </view>
   </view>
@@ -98,6 +98,11 @@ const { checkoutItems } = useCartStore()
 
 const address = ref<AddressItem | null>(null)
 const remark = ref("")
+
+const totalAmount = checkoutItems.value.reduce(
+  (total, item) => total + Number(item.sku.price) * item.quantity,
+  0,
+);
 
 const handleSelectAddress = () => {
 
@@ -139,17 +144,15 @@ const submitOrder = () => {
     left: 0;
     width: 100%;
     height: 1px;
-    background: repeating-linear-gradient(
-      -45deg,
-      #ff976a 0,
-      #ff976a 20%,
-      transparent 0,
-      transparent 25%,
-      #1989fa 0,
-      #1989fa 45%,
-      transparent 0,
-      transparent 50%
-    );
+    background: repeating-linear-gradient(-45deg,
+        #ff976a 0,
+        #ff976a 20%,
+        transparent 0,
+        transparent 25%,
+        #1989fa 0,
+        #1989fa 45%,
+        transparent 0,
+        transparent 50%);
     background-size: 80px;
   }
 }
@@ -214,7 +217,7 @@ const submitOrder = () => {
   @include flex-column($space-4);
   background-color: #fff;
   font-size: 13px;
-  
+
   .cell {
     @include flex-between;
     gap: $space-4;
