@@ -3,7 +3,7 @@
 		<!-- 顶部半弧背景：垫在搜索框和轮播图上半部下面 -->
 		<view class="top-arc"></view>
 
-		<view class="search">
+		<view class="search" @click="navigateByLink('/pages/search/index')">
 			<up-search placeholder="搜索关键词" :disabled="true" :showAction="false"></up-search>
 		</view>
 
@@ -12,7 +12,7 @@
 
 		<!-- 金刚区：每页 10 个（2 行 x 5 列），横向翻页 -->
 		<view class="entries-wrap">
-			<up-scroll-list :indicator="entryPages.length > 1" indicatorColor="#fff0f0" indicator-active-color="#DD261C">
+			<up-scroll-list :indicator="entryPages.length > 1" indicatorColor="#fff0f0" indicator-active-color="#DD261C" indicator-style="">
 				<view class="entries-page" v-for="(page, pageIndex) in entryPages" :key="pageIndex">
 					<view v-for="item in page" :key="item.id" class="entries-item">
 						<image :src="item.iconUrl" class="entries-icon" mode="aspectFill"></image>
@@ -26,7 +26,7 @@
 		<PromoSections />
 
 		<!-- 商品列表 -->
-		<ProductWaterfall v-model="productList" />
+		<ProductWaterfall v-model="productList" :loadmoreStatus="loadmoreStatus" />
 	</view>
 </template>
 
@@ -36,13 +36,14 @@
 
 	import { contentApi } from "@/api/contentApi"
 	import { shopApi } from "@/api/shopApi"
+	import { usePagedList } from "@/hooks/usePagedList";
 	import type { BannerItem, EntriesItem, ProductItem } from "@/api/types"
+	import { navigateByLink } from "@/utils"
 	import PromoSections from "./components/PromoSections.vue"
 	import ProductWaterfall from "@/components/ProductWaterfall.vue"
 
 	const bannerList = ref<BannerItem[]>([])
 	const entries = ref<EntriesItem[]>([])
-	const productList = ref<ProductItem[]>([])
 
 	// 金刚区分页：每页 10 个（2 行 x 5 列）
 	const ENTRIES_PAGE_SIZE = 10
@@ -67,19 +68,17 @@
 	}
 
 	// 获取商品
-	const getProduct = async () => {
-		const { data } = await shopApi.productList({
-			page: 1,
-			pageSize: 10
+	const { list: productList, loadmoreStatus, refresh } = usePagedList<ProductItem>(
+		(page, pageSize) => shopApi.productList({
+			page,
+			pageSize
 		})
-		productList.value = data.list
-		console.log(data)
-	}
+	)
 
 	onLoad(() => {
 		void getBanners()
 		void getEntries()
-		void getProduct()
+		void refresh()
 	})
 </script>
 

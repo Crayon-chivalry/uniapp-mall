@@ -1,5 +1,10 @@
 // HBuilderX 项目没有 npm 安装 @dcloudio/uni-app（编译时使用 HBuilderX 内置运行时），
 // VS Code 的 TS 服务无法解析该模块，这里做类型声明仅供编辑器提示使用
+declare module "*.vue" {
+	const component: any;
+	export default component;
+}
+
 declare module "@dcloudio/uni-app" {
 	type OnLoadOptions = Record<string, string | undefined>;
 

@@ -1,12 +1,13 @@
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 import userStore from "./modules/userStore";
+import cartStore from "./modules/cartStore";
 
 // 需要持久化的模块（白名单，新增模块按需加入）
-const PERSIST_PATHS = ["userStore"];
+const PERSIST_PATHS = ["userStore", "cartStore"];
 
 const store = createStore({
-	modules: { userStore },
+	modules: { userStore, cartStore },
 	plugins: [
 		// 持久化：H5 下 localStorage 可用，但小程序/App 没有，storage 统一适配为 uni 的同步缓存
 		createPersistedState({

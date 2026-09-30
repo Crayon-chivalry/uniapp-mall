@@ -131,6 +131,14 @@ export interface AddCartsParams {
   quantity: number
 }
 
+// 购物车项（服务端结构；选中态 checked 由前端 store 维护）
+export interface CartItem {
+  id: number
+  product: ProductItem
+  sku: SkuItem
+  quantity: number
+}
+
 // 地址
 export interface AddressItem {
   id: number
